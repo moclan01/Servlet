@@ -12,6 +12,10 @@
 <head>
     <title>Bid List</title>
     <style>
+        table, td, th {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
 
     </style>
 </head>

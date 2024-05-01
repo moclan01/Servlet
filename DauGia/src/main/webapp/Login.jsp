@@ -18,13 +18,18 @@
             border-radius: 5px;
             background-color: #f2f2f2;
         }
+
+        table, td, th {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
     </style>
 </head>
 <body>
 <form action="login" method="post" class="form-container">
     <table>
         <tr>
-            <td align="center" colspan="2">Đăng nhập</td>
+            <td align="center" colspan="2" style="background-color: aqua; font-size: 20px"><strong>Đăng nhập</strong></td>
         </tr>
         <tr>
             <td>Tên đăng nhập</td>
