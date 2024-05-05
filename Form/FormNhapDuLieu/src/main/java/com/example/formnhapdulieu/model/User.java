@@ -2,7 +2,8 @@ package com.example.formnhapdulieu.model;
 
 import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
+    public static final String TABLENAME = "Users";
     String username;
     String password;
     String name;

@@ -5,10 +5,10 @@ import com.example.formnhapdulieu.model.User;
 
 import java.util.List;
 
-public class UserService {
+public class UserServices {
     UserDAO dao;
 
-    public UserService(){
+    public UserServices(){
         dao = new UserDAO();
     }
     public List<User> getAll(){

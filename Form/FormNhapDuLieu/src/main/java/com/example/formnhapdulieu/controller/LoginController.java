@@ -1,7 +1,9 @@
 package com.example.formnhapdulieu.controller;
 
+import com.example.formnhapdulieu.model.Log;
 import com.example.formnhapdulieu.model.User;
-import com.example.formnhapdulieu.service.UserService;
+import com.example.formnhapdulieu.service.LogServices;
+import com.example.formnhapdulieu.service.UserServices;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +16,8 @@ import java.util.List;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
-    UserService userService;
+    UserServices userService;
+    LogServices logServices;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +27,8 @@ public class LoginController extends HttpServlet {
     @Override
 //
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        userService = new UserService();
+        userService = new UserServices();
+        logServices = new LogServices();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -33,16 +37,22 @@ public class LoginController extends HttpServlet {
             for (User user : userList) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     HttpSession session = request.getSession();
+                    session.setAttribute("username", user.getUsername());
                     session.setAttribute("name", user.getName());
+                    String ip = request.getRemoteAddr();
+                    Log log = new Log(Log.LOGIN_SERVICE,Log.LOG_LVL_ALERT,username,ip,User.TABLENAME);
+                    logServices.addLog(log);
                     response.sendRedirect("/home");
                     return;
+                }else {
+                    request.setAttribute("fail", "Tài khoản hoặc mật khẩu không đúng");
                 }
             }
-            request.setAttribute("fail", "Tài khoản hoặc mật khẩu không đúng");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+
         } else {
             request.setAttribute("error", "");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+
         }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 }
